@@ -3,7 +3,6 @@ const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize("test", "root", null, {
   host: "localhost",
   dialect: "mysql", // csdl dung la gi
-  freezeTableName: true,
 });
 
 const connection = async () => {
