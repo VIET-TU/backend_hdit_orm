@@ -23,13 +23,8 @@ const createNewUser = async ({ email, password, username }) => {
 
 const getListUsers = async () => {
   try {
-    const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      database: "test",
-    });
-    const [user] = await connection.execute("SELECT * FROM user");
-    return user;
+    const users = await db.User.findAll(); // tra 1 object {} --  findAll() or find() => 1 array object [{}, ...]
+    return users;
   } catch (error) {
     console.log(error);
     return [];
@@ -38,34 +33,35 @@ const getListUsers = async () => {
 
 const deleteUser = async (id) => {
   try {
-    const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      database: "test",
+    await db.User.destroy({
+      where: {
+        id: id,
+      },
     });
-    await connection.execute("delete from user where id = ? ", [id]);
   } catch (error) {
     console.log(error);
   }
 };
 
 const getByUserId = async (id) => {
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "test",
-  });
   try {
-    let [results] = await connection.execute(
-      "select * from user where id = ?",
-      [id]
-    );
-    return results;
+    const user = await db.User.findOne({ where: { id: id } }); // tra 1 object {} --  findAll() or find() => 1 array object [{}, ...]
+    return user;
   } catch (error) {
     console.log(error);
   }
 };
 
+const postUpdateUser = async (user) => {
+  const result = await db.User.update(
+    {
+      email: user.email,
+      username: user.username,
+    },
+    { where: { id: user.id } }
+  );
+};
+
 // servie liên quan đến logic database
 
-export { createNewUser, getListUsers, deleteUser, getByUserId };
+export { createNewUser, getListUsers, deleteUser, getByUserId, postUpdateUser };

@@ -21,7 +21,7 @@
           <div class="pt-3">
             <h3>Update new user:</h3>
           </div>
-          <form method="POST" action="/users/create-user">
+          <form method="POST" action="/users/update-user">
             <div class="mb-3 col-6 mt-3">
               <label for="exampleInputEmail1" class="form-label"
                 >Email address</label
@@ -31,6 +31,7 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
+                value=" <%= user.email %> "
               />
             </div>
 
@@ -44,8 +45,10 @@
                 type="text"
                 class="form-control"
                 id="exampleInputPassword1"
+                value="<%= user.username %>"
               />
             </div>
+            <input type="text" value="<%= user.id %>" hidden name="id" />
             <div class="col-6"></div>
             <div class="mb-3 col-6">
               <button type="submit" class="btn btn-primary">Update</button>

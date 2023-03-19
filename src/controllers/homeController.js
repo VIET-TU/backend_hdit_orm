@@ -3,6 +3,7 @@ import {
   deleteUser,
   getListUsers,
   getByUserId,
+  postUpdateUser,
 } from "../service/userSevice";
 
 const homeController = {
@@ -20,10 +21,15 @@ const homeController = {
     await deleteUser(id);
     return res.redirect("/");
   },
-  handleUpdateUser: async (req, res) => {
+  handleEditUser: async (req, res) => {
     const id = req.params.id;
     let user = await getByUserId(id);
-    return res.render("update.ejs");
+    return res.render("update.ejs", { user });
+  },
+  handleUpdateUser: async (req, res) => {
+    console.log("req.body :>> ", req.body);
+    await postUpdateUser(req.body);
+    return res.redirect("/");
   },
 };
 
