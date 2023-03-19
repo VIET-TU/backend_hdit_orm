@@ -16,7 +16,7 @@ const createNewUser = async ({ email, password, username }) => {
       database: "test",
     });
     const [rows, fields] = await connection.execute(
-      "insert into users(email, password, username) values (?, ?, ?)",
+      "insert into user(email, password, username) values (?, ?, ?)",
       [email, hashPassword, username]
     );
     return rows;
@@ -32,8 +32,8 @@ const getListUsers = async () => {
       user: "root",
       database: "test",
     });
-    const [users] = await connection.execute("SELECT * FROM users");
-    return users;
+    const [user] = await connection.execute("SELECT * FROM user");
+    return user;
   } catch (error) {
     console.log(error);
     return [];
@@ -47,7 +47,7 @@ const deleteUser = async (id) => {
       user: "root",
       database: "test",
     });
-    await connection.execute("delete from users where id = ? ", [id]);
+    await connection.execute("delete from user where id = ? ", [id]);
   } catch (error) {
     console.log(error);
   }
@@ -61,7 +61,7 @@ const getByUserId = async (id) => {
   });
   try {
     let [results] = await connection.execute(
-      "select * from users where id = ?",
+      "select * from user where id = ?",
       [id]
     );
     return results;
